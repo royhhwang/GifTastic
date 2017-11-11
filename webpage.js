@@ -2,10 +2,11 @@ $(document).ready(function () {
 
     var games = ["Zelda", "Mario", "Final Fantasy", "Fire Emblem"];
 
+    var gameRating, text;
+    console.log(gameRating);
+
     function displayGameInfo() {
 
-
-        
         var game = $(this).data("name");
         var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" +
             game + "&api_key=dc6zaTOxFJmzC&limit=10"
@@ -14,17 +15,19 @@ $(document).ready(function () {
             url: queryUrl,
             method: "GET"
         }).done(function (response) {
-
+            // console.log(response);
             var gifDiv = $("#game-gifs");
+
 
             for (var i = 0; i < 11; i++) {
                 if (gameRating !== "r" && gameRating !== "pg-13") {
 
+                    console.log(response.data[i]);
                     var gameRating = response.data[i].rating;
                     var p = $("<p>").text("Rating: " + gameRating);
 
                     var imgURL = response.data[i].images.fixed_height.url;
-                    console.log(imgURL);
+                    // console.log(imgURL);
                     var gameImg = $("<img id='gif-move'>").attr("src", imgURL);
 
                     gifDiv.prepend(p);
@@ -36,9 +39,7 @@ $(document).ready(function () {
 
                     // });
                 }
-                else if (gameRating == "r" || gameRating == "pg-13") {
-                    $("#games-spot").html("Sorry! Try another search.");
-                }
+                
             }
         });
     }
